@@ -13,11 +13,54 @@
       "paymentAmount": 2000,
       "editorId": "miguel",
       "projects": [
-        { "id": "af-film-1", "name": "19_CURITIBA", "year": 2025, "month": "Junho", "status": "Entregue", "type": "raw", "path": "H:/Meu Drive/FILMAGENS/2025/06-JUNHO/19.06.2025-CURITIBA" },
-        { "id": "af-film-2", "name": "20_GUARULHOS", "year": 2025, "month": "Junho", "status": "Entregue", "type": "raw", "path": "H:/Meu Drive/FILMAGENS/2025/06-JUNHO/20.06.2025-GUARULHOS" },
-        { "id": "af-edit-1", "name": "CARNAVAL CHEGAR CEDO", "year": 2026, "month": "Fevereiro", "status": "Em edição", "type": "reels", "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO", "scheduledDate": "2026-02-21" },
-        { "id": "af-edit-2", "name": "MEDITAÇÃO", "year": 2026, "month": "Fevereiro", "status": "Atrasado", "type": "reels", "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO", "scheduledDate": "2026-02-22" },
-        { "id": "af-edit-3", "name": "IR PRO MATO CARNAVAL", "year": 2026, "month": "Fevereiro", "status": "Entregue", "type": "reels", "deliveredAt": "15/02/2026", "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO" }
+        {
+          "id": "af-film-1",
+          "name": "19_CURITIBA",
+          "year": 2025,
+          "month": "Junho",
+          "status": "Entregue",
+          "type": "raw",
+          "path": "H:/Meu Drive/FILMAGENS/2025/06-JUNHO/19.06.2025-CURITIBA"
+        },
+        {
+          "id": "af-film-2",
+          "name": "20_GUARULHOS",
+          "year": 2025,
+          "month": "Junho",
+          "status": "Entregue",
+          "type": "raw",
+          "path": "H:/Meu Drive/FILMAGENS/2025/06-JUNHO/20.06.2025-GUARULHOS"
+        },
+        {
+          "id": "af-edit-1",
+          "name": "CARNAVAL CHEGAR CEDO",
+          "year": 2026,
+          "month": "Fevereiro",
+          "status": "Em edição",
+          "type": "reels",
+          "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO",
+          "scheduledDate": "2026-02-21"
+        },
+        {
+          "id": "af-edit-2",
+          "name": "MEDITAÇÃO",
+          "year": 2026,
+          "month": "Fevereiro",
+          "status": "Atrasado",
+          "type": "reels",
+          "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO",
+          "scheduledDate": "2026-02-22"
+        },
+        {
+          "id": "af-edit-3",
+          "name": "IR PRO MATO CARNAVAL",
+          "year": 2026,
+          "month": "Fevereiro",
+          "status": "Entregue",
+          "type": "reels",
+          "deliveredAt": "15/02/2026",
+          "path": "OneDrive/REELS GERAL/AFONSO/2026/02-FEVEREIRO"
+        }
       ]
     },
     {
@@ -33,21 +76,93 @@
       "paymentAmount": 4000,
       "editorId": "diogo",
       "projects": [
-        { "id": "q-film-1", "name": "09.11.2025 - FLORIPA", "year": 2025, "month": "Novembro", "status": "Entregue", "type": "raw", "path": "H:/Meu Drive/FILMAGENS/2025/11-NOVEMBRO/09.11.2025-FLORIPA" },
-        { "id": "q-film-2", "name": "10.11.2025 - SÃO JOSÉ", "year": 2025, "month": "Novembro", "status": "Entregue", "type": "raw", "path": "H:/Meu Drive/FILMAGENS/2025/11-NOVEMBRO/10.11.2025-SAO-JOSE" },
-        { "id": "q-edit-1", "name": "9 A CADA 10 DENTISTAS", "year": 2025, "month": "Novembro", "status": "Entregue", "type": "reels", "deliveredAt": "20/11/2025", "path": "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO" },
-        { "id": "q-edit-2", "name": "BANHEIRO", "year": 2025, "month": "Novembro", "status": "Entregue", "type": "reels", "deliveredAt": "22/11/2025", "path": "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO" }
+        {
+          "id": "q-film-1",
+          "name": "09.11.2025 - FLORIPA",
+          "year": 2025,
+          "month": "Novembro",
+          "status": "Entregue",
+          "type": "raw",
+          "path": "H:/Meu Drive/FILMAGENS/2025/11-NOVEMBRO/09.11.2025-FLORIPA"
+        },
+        {
+          "id": "q-film-2",
+          "name": "10.11.2025 - SÃO JOSÉ",
+          "year": 2025,
+          "month": "Novembro",
+          "status": "Entregue",
+          "type": "raw",
+          "path": "H:/Meu Drive/FILMAGENS/2025/11-NOVEMBRO/10.11.2025-SAO-JOSE"
+        },
+        {
+          "id": "q-edit-1",
+          "name": "9 A CADA 10 DENTISTAS",
+          "year": 2025,
+          "month": "Novembro",
+          "status": "Entregue",
+          "type": "reels",
+          "deliveredAt": "20/11/2025",
+          "path": "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO"
+        },
+        {
+          "id": "q-edit-2",
+          "name": "BANHEIRO",
+          "year": 2025,
+          "month": "Novembro",
+          "status": "Entregue",
+          "type": "reels",
+          "deliveredAt": "22/11/2025",
+          "path": "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO"
+        }
       ]
     }
   ],
   "inventory": [
-    { "id": "cam1", "name": "Canon EOS 90D #1", "type": "Câmera", "isAvailable": true, "specs": "4K, 32.5MP" },
-    { "id": "cam2", "name": "Canon EOS 90D #2", "type": "Câmera", "isAvailable": true, "specs": "4K, 32.5MP" },
-    { "id": "len1", "name": "Canon 24-105mm L #1", "type": "Lente", "isAvailable": true, "specs": "f/4 IS USM" },
-    { "id": "len2", "name": "Canon 24-105mm L #2", "type": "Lente", "isAvailable": true, "specs": "f/4 IS USM" },
-    { "id": "aud1", "name": "Zoom H6", "type": "Áudio", "isAvailable": true, "specs": "Gravador de Campo Multi-track" }
+    {
+      "id": "cam1",
+      "name": "Canon EOS 90D #1",
+      "type": "Câmera",
+      "isAvailable": true,
+      "specs": "4K, 32.5MP"
+    },
+    {
+      "id": "cam2",
+      "name": "Canon EOS 90D #2",
+      "type": "Câmera",
+      "isAvailable": true,
+      "specs": "4K, 32.5MP"
+    },
+    {
+      "id": "len1",
+      "name": "Canon 24-105mm L #1",
+      "type": "Lente",
+      "isAvailable": true,
+      "specs": "f/4 IS USM"
+    },
+    {
+      "id": "len2",
+      "name": "Canon 24-105mm L #2",
+      "type": "Lente",
+      "isAvailable": true,
+      "specs": "f/4 IS USM"
+    },
+    {
+      "id": "aud1",
+      "name": "Zoom H6",
+      "type": "Áudio",
+      "isAvailable": true,
+      "specs": "Gravador de Campo Multi-track"
+    }
   ],
   "uberExpenses": [
-    { "id": "ub1", "date": "06/06/2025", "show": "After Comedy", "local": "Renaiscence", "ida": 0, "volta": 0, "editor": "Miguel" }
+    {
+      "id": "ub1",
+      "date": "06/06/2025",
+      "show": "After Comedy",
+      "local": "Renaiscence",
+      "ida": 0,
+      "volta": 0,
+      "editor": "Miguel"
+    }
   ]
 }
