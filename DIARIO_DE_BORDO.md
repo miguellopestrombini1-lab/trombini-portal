@@ -10,22 +10,21 @@ Este arquivo é a nossa memória central. Ele garante que, mesmo que o chat seja
 - **Protocolo de Verificação (OBRIGATÓRIO):** Após qualquer alteração, abrir `http://localhost:3000` para validar localmente e depois a `trombini-portal.vercel.app` para confirmar a sincronização global.
 
 ## 🛠️ O que já foi construído (Resumo)
-1.  **Arquitetura Base:** Criamos um site usando tecnologias modernas (Next.js, Tailwind CSS).
+1.  **Arquitetura Base:** Site moderno usando Next.js e Tailwind CSS.
 2.  **Módulos Implementados:**
-    - **Página Inicial:** Layout moderno com acesso fácil a todos os setores.
-    - **Clientes:** Banco de dados de clientes (ex: Afonso Padilha, 4 Amigos) com perfis individuais.
-    - **Filmagens:** Sistema de Agenda (calendário) e Inventário de Equipamentos com fotos.
-    - **Edições:** Lista de projetos, controle de entrega e player de vídeo para preview.
-    - **Financeiro:** Controle de reposição de gastos com Uber para os editores.
-3.  **Deploy:** O site foi configurado para o GitHub e Vercel (para ficar online).
-4.  **Correção Técnica:** Resolvemos um erro interno (hidratação) que estava travando o site.
-5.  **Infraestrutura Pro:** Criamos o sistema de **Auto-Sync** (salvamento automático a cada 30 min) e a **Chave Mestra** (arquivo único para restaurar o sistema em qualquer PC).
-6.  **Sincronização Blindada:** Implementamos um workflow que resolve conflitos de código automaticamente, permitindo que Miguel e Diogo trabalhem simultaneamente sem medo.
+    - **Página Inicial:** Layout moderno e dinâmico.
+    - **Gestão de Clientes v2:** Banco de dados editável com campos de Reels (Qtd/Frequência) e Financeiro (Pagamento).
+    - **Agenda de Vídeos:** Calendário estilo Notion com modos Semanal, Mensal e Anual.
+    - **Filmagens & Edições:** Controle total de equipamentos, drive e fluxo de entrega.
+    - **Financeiro:** Controle Uber/Reposição.
+3.  **Persistência (Banco de Dados):** Implementado `db.json` + API local, garantindo que as edições fiquem salvas permanentemente.
+4.  **Vinculação de Editor:** Sistema inteligente que transfere a pauta de vídeos automaticamente entre Miguel e Diogo ao trocar o responsável pelo cliente.
+5.  **Deploy & Build:** Sincronização GitHub/Vercel estabilizada após correção de erros de Lint/TypeScript.
 
 ## 📍 Onde paramos em 20/02/2026
-- Resolvemos as pendências de clientes (inclusão de "After Comedy" e "Série B").
-- Blindamos a infraestrutura com a **Chave Mestra** e o **Auto-Sync**.
-- **Próximo passo sugerido:** Começar a popular os dados reais dos clientes ou implementar a "Memória de Longo Prazo" (Banco de Dados persistente).
+- Concluímos a **Missão Banco de Dados + Agenda Notion**.
+- O portal está 100% sincronizado e funcional tanto no `localhost` quanto na `vercel`.
+- **Próximo passo sugerido:** Iniciar o uso real alimentando os projetos da semana na agenda para testar o fluxo de trabalho.
 
 ---
 *Antigravity: Sempre atualize este arquivo ao final de cada grande mudança.*
