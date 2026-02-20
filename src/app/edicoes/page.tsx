@@ -8,7 +8,7 @@ const MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Jul
 const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
 export default function EdicoesPage() {
-    const { data, loading, saveData } = useDb();
+    const { data, loading, error, saveData } = useDb();
     const [viewMode, setViewMode] = useState<"list" | "month" | "week">("list");
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [currentMonthIdx, setCurrentMonthIdx] = useState(new Date().getMonth());
@@ -28,9 +28,17 @@ export default function EdicoesPage() {
         return editions;
     }, [data]);
 
-    if (loading || !data) return (
+    if (loading) return (
         <div className="flex items-center justify-center h-screen">
             <span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Carregando Edições...</span>
+        </div>
+    );
+
+    if (error || !data) return (
+        <div className="flex flex-col items-center justify-center h-screen bg-[#080808]">
+            <span className="text-4xl mb-4">⚠️</span>
+            <p className="text-xs font-black text-red-500 uppercase tracking-widest">{error || 'Dados não encontrados'}</p>
+            <button onClick={() => window.location.reload()} className="mt-6 px-6 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-black uppercase text-white transition-all">Tentar Novamente</button>
         </div>
     );
 

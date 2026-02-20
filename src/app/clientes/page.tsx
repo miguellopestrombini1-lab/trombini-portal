@@ -216,7 +216,7 @@ function FilmagensTab({ projects, onUpdate }: { projects: Project[], onUpdate: (
 // PÁGINA DE CLIENTES
 // =====================================================
 export default function ClientesPage() {
-    const { data, loading, saveData } = useDb();
+    const { data, loading, error, saveData } = useDb();
     const [selectedClient, setSelectedClient] = useState<Client | null>(null);
     const [activeTab, setActiveTab] = useState<"filmagens" | "edicoes" | "contrato">("filmagens");
     const [clientImages, setClientImages] = useState<Record<string, string>>({});
@@ -250,6 +250,14 @@ export default function ClientesPage() {
     };
 
     if (loading) return <div className="flex items-center justify-center h-screen"><span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Carregando Banco de Dados...</span></div>;
+
+    if (error) return (
+        <div className="flex flex-col items-center justify-center h-screen bg-[#080808]">
+            <span className="text-4xl mb-4">⚠️</span>
+            <p className="text-xs font-black text-red-500 uppercase tracking-widest">{error}</p>
+            <button onClick={() => window.location.reload()} className="mt-6 px-6 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-black uppercase text-white transition-all">Tentar Novamente</button>
+        </div>
+    );
 
     // Tela inteira do cliente
     if (selectedClient) {

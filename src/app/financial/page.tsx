@@ -5,7 +5,7 @@ import { useDb } from "../../lib/useDb";
 import { ExpenseEntry } from "../../lib/types";
 
 export default function FinancialPage() {
-    const { data, loading, saveData } = useDb();
+    const { data, loading, error, saveData } = useDb();
     const [activeEditor, setActiveEditor] = useState("Miguel");
 
     const editors = useMemo(() => {
@@ -14,9 +14,17 @@ export default function FinancialPage() {
         return Array.from(set);
     }, [data]);
 
-    if (loading || !data) return (
+    if (loading) return (
         <div className="flex items-center justify-center h-screen">
             <span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Carregando Financeiro...</span>
+        </div>
+    );
+
+    if (error || !data) return (
+        <div className="flex flex-col items-center justify-center h-screen bg-[#080808]">
+            <span className="text-4xl mb-4">⚠️</span>
+            <p className="text-xs font-black text-red-500 uppercase tracking-widest">{error || 'Dados não encontrados'}</p>
+            <button onClick={() => window.location.reload()} className="mt-6 px-6 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-black uppercase text-white transition-all">Tentar Novamente</button>
         </div>
     );
 

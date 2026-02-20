@@ -10,14 +10,18 @@ export type DbData = {
 export function useDb() {
     const [data, setData] = useState<DbData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const fetchData = async () => {
         try {
+            setError(null);
             const response = await fetch('/api/db');
+            if (!response.ok) throw new Error('Falha ao carregar banco de dados');
             const json = await response.json();
             setData(json);
-        } catch (error) {
-            console.error('Failed to fetch DB:', error);
+        } catch (err: any) {
+            console.error('Failed to fetch DB:', err);
+            setError(err.message || 'Erro desconhecido');
         } finally {
             setLoading(false);
         }
@@ -42,5 +46,5 @@ export function useDb() {
         }
     };
 
-    return { data, loading, saveData, refresh: fetchData };
+    return { data, loading, error, saveData, refresh: fetchData };
 }

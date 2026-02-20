@@ -13,7 +13,6 @@ export default function Home() {
         <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 tracking-tighter leading-none uppercase mt-2">
           PRODUÇÕES
         </h2>
-        <p className="text-[10px] text-gray-600 uppercase tracking-[0.5em] font-bold mt-6">Management Portal · v2.0</p>
       </div>
 
       {/* Botões de Navegação */}
