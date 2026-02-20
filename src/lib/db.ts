@@ -13,6 +13,9 @@ export const clients: Client[] = [
             phone: "11 XXXXX-XXXX"
         },
         frequency: "Semanal",
+        reelsQuantity: 4,
+        paymentAmount: 2000,
+        editorId: "miguel",
         premiereTemplate: "OneDrive/MODELOS/AFONSO_REELS_2026.prproj",
         projects: [
             // --- Filmagens (Brutos no Google Drive) ---
@@ -32,6 +35,9 @@ export const clients: Client[] = [
             phone: "11 YYYYY-YYYY"
         },
         frequency: "Mensal (Especial)",
+        reelsQuantity: 8,
+        paymentAmount: 4000,
+        editorId: "diogo",
         premiereTemplate: "OneDrive/MODELOS/4AMIGOS_REELS_2025.prproj",
         projects: [
             // --- Filmagens ---
@@ -47,6 +53,9 @@ export const clients: Client[] = [
         name: "Série B",
         contact: { instagram: "@serieb", phone: "" },
         frequency: "Semanal",
+        reelsQuantity: 0,
+        paymentAmount: 0,
+        editorId: "miguel",
         premiereTemplate: "",
         projects: []
     }
