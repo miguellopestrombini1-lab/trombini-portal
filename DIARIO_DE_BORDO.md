@@ -7,6 +7,7 @@ Este arquivo é a nossa memória central. Ele garante que, mesmo que o chat seja
 - **Idioma:** Português (Brasil) sempre.
 - **Estilo:** Explicações didáticas, simples e sem termos técnicos complicados.
 - **Design:** Estética premium, moderna e com impacto visual.
+- **Protocolo de Verificação (OBRIGATÓRIO):** Após qualquer alteração, abrir `http://localhost:3000` para validar localmente e depois a `trombini-portal.vercel.app` para confirmar a sincronização global.
 
 ## 🛠️ O que já foi construído (Resumo)
 1.  **Arquitetura Base:** Criamos um site usando tecnologias modernas (Next.js, Tailwind CSS).

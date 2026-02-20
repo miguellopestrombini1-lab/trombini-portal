@@ -33,6 +33,9 @@ export default function RootLayout({
             <Link href="/clientes" className="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-3 py-2.5 rounded-xl transition-all text-xs font-bold">
               👥 <span>Clientes</span>
             </Link>
+            <Link href="/agenda" className="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-3 py-2.5 rounded-xl transition-all text-xs font-bold">
+              📅 <span>Agenda</span>
+            </Link>
 
             <p className="text-[8px] text-gray-500 font-black uppercase tracking-widest mb-3 mt-6 px-3">Departamentos</p>
             <Link href="/filmagens" className="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-3 py-2.5 rounded-xl transition-all text-xs font-bold">

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { clients as initialClients } from "../../lib/db";
-import { Client, Project, Status } from "../../lib/types";
+import { useState, useRef, useEffect } from "react";
+import { useDb, DbData } from "../../lib/useDb";
+import { Client, Project, Status, EditorId } from "../../lib/types";
 
 // Tipo local de edição (Reels / YouTube apenas)
 type EditItem = {
@@ -18,7 +18,7 @@ type EditItem = {
     notes: string;
 };
 
-function EditionsTab({ projects }: { projects: Project[] }) {
+function EditionsTab({ projects, onUpdate }: { projects: Project[], onUpdate: (projects: Project[]) => void }) {
     const [items, setItems] = useState<EditItem[]>(
         projects.filter(p => p.type !== "raw").map(p => ({
             id: p.id, name: p.name, type: (p.type === "youtube" ? "youtube" : "reels") as "reels" | "youtube",
@@ -31,30 +31,54 @@ function EditionsTab({ projects }: { projects: Project[] }) {
     const [uploadTargetId, setUploadTargetId] = useState<string | null>(null);
 
     const update = (id: string, field: keyof EditItem, value: any) => {
-        setItems(prev => prev.map(item => item.id === id ? { ...item, [field]: value } : item));
+        const newItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
+        setItems(newItems);
+        syncProjects(newItems);
     };
 
     const toggleDelivered = (id: string) => {
-        setItems(prev => prev.map(item =>
+        const newItems = items.map(item =>
             item.id === id
-                ? { ...item, delivered: !item.delivered, status: !item.delivered ? "Entregue" : "Aguardando", deliveryDate: !item.delivered ? new Date().toLocaleDateString("pt-BR") : "" }
+                ? { ...item, delivered: !item.delivered, status: (!item.delivered ? "Entregue" : "Aguardando") as Status, deliveryDate: !item.delivered ? new Date().toLocaleDateString("pt-BR") : "" }
                 : item
-        ));
+        );
+        setItems(newItems);
+        syncProjects(newItems);
     };
 
-    const deleteItem = (id: string) => setItems(prev => prev.filter(item => item.id !== id));
+    const deleteItem = (id: string) => {
+        const newItems = items.filter(item => item.id !== id);
+        setItems(newItems);
+        syncProjects(newItems);
+    };
 
     const addItem = () => {
         const newItem: EditItem = { id: `edit-${Date.now()}`, name: "", type: "reels", status: "Aguardando", delivered: false, deliveryDate: "", link: "", fileUrl: "", fileName: "", notes: "" };
-        setItems(prev => [...prev, newItem]);
+        const newItems = [...items, newItem];
+        setItems(newItems);
         setExpandedId(newItem.id);
+        syncProjects(newItems);
+    };
+
+    const syncProjects = (currentItems: EditItem[]) => {
+        const rawProjects = projects.filter(p => p.type === "raw");
+        const updatedEditions = currentItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            year: new Date().getFullYear(),
+            status: item.status,
+            type: item.type as any,
+            deliveredAt: item.deliveryDate
+        }));
+        onUpdate([...rawProjects, ...updatedEditions]);
     };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && uploadTargetId) {
             const url = URL.createObjectURL(file);
-            setItems(prev => prev.map(item => item.id === uploadTargetId ? { ...item, fileUrl: url, fileName: file.name } : item));
+            update(uploadTargetId, "fileUrl", url);
+            update(uploadTargetId, "fileName", file.name);
         }
     };
 
@@ -138,11 +162,31 @@ function EditionsTab({ projects }: { projects: Project[] }) {
     );
 }
 
-function FilmagensTab({ projects }: { projects: Project[] }) {
+function FilmagensTab({ projects, onUpdate }: { projects: Project[], onUpdate: (projects: Project[]) => void }) {
     const [items, setItems] = useState(projects.filter(p => p.type === "raw").map(p => ({ ...p })));
-    const update = (id: string, field: string, value: any) => setItems(prev => prev.map(item => item.id === id ? { ...item, [field]: value } : item));
-    const deleteItem = (id: string) => setItems(prev => prev.filter(i => i.id !== id));
-    const addItem = () => setItems(prev => [...prev, { id: `film-${Date.now()}`, name: "", year: new Date().getFullYear(), month: "", status: "Aguardando" as Status, type: "raw" as const, path: "" }]);
+
+    const update = (id: string, field: string, value: any) => {
+        const newItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
+        setItems(newItems);
+        syncProjects(newItems);
+    };
+
+    const deleteItem = (id: string) => {
+        const newItems = items.filter(i => i.id !== id);
+        setItems(newItems);
+        syncProjects(newItems);
+    };
+
+    const addItem = () => {
+        const newItems = [...items, { id: `film-${Date.now()}`, name: "", year: new Date().getFullYear(), month: "", status: "Aguardando" as Status, type: "raw" as const, path: "" }];
+        setItems(newItems);
+        syncProjects(newItems);
+    };
+
+    const syncProjects = (currentItems: any[]) => {
+        const editionProjects = projects.filter(p => p.type !== "raw");
+        onUpdate([...editionProjects, ...currentItems]);
+    };
 
     return (
         <div className="space-y-3">
@@ -170,16 +214,18 @@ function FilmagensTab({ projects }: { projects: Project[] }) {
 // PÁGINA DE CLIENTES
 // =====================================================
 export default function ClientesPage() {
-    const [allClients, setAllClients] = useState<Client[]>(initialClients);
+    const { data, loading, saveData } = useDb();
     const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-    const [activeTab, setActiveTab] = useState<"filmagens" | "edicoes">("filmagens");
+    const [activeTab, setActiveTab] = useState<"filmagens" | "edicoes" | "contrato">("filmagens");
     const [clientImages, setClientImages] = useState<Record<string, string>>({});
     const imageInputRef = useRef<HTMLInputElement>(null);
     const [editingClientId, setEditingClientId] = useState<string | null>(null);
 
-    // Editar nome do cliente inline
-    const updateClientName = (id: string, name: string) => {
-        setAllClients(prev => prev.map(c => c.id === id ? { ...c, name } : c));
+    const updateClient = (updatedClient: Client) => {
+        if (!data) return;
+        const newClients = data.clients.map(c => c.id === updatedClient.id ? updatedClient : c);
+        saveData({ ...data, clients: newClients });
+        setSelectedClient(updatedClient);
     };
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -191,16 +237,17 @@ export default function ClientesPage() {
     };
 
     const addClient = () => {
+        if (!data) return;
         const newClient: Client = {
             id: `client-${Date.now()}`,
             name: "Novo Cliente",
-            contact: {},
-            frequency: "",
-            premiereTemplate: "",
+            editorId: "miguel",
             projects: [],
         };
-        setAllClients(prev => [...prev, newClient]);
+        saveData({ ...data, clients: [...data.clients, newClient] });
     };
+
+    if (loading) return <div className="flex items-center justify-center h-screen"><span className="text-[10px] font-black text-white uppercase tracking-widest animate-pulse">Carregando Banco de Dados...</span></div>;
 
     // Tela inteira do cliente
     if (selectedClient) {
@@ -234,14 +281,16 @@ export default function ClientesPage() {
                         <div>
                             <input
                                 value={selectedClient.name}
-                                onChange={e => {
-                                    const newName = e.target.value;
-                                    setAllClients(prev => prev.map(c => c.id === selectedClient.id ? { ...c, name: newName } : c));
-                                    setSelectedClient(prev => prev ? { ...prev, name: newName } : null);
-                                }}
+                                onChange={e => updateClient({ ...selectedClient, name: e.target.value })}
                                 className="text-5xl font-black text-white tracking-tighter leading-none bg-transparent outline-none uppercase"
                             />
-                            <p className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-bold mt-2">{selectedClient.projects.length} projetos</p>
+                            <div className="flex items-center gap-4 mt-2 font-bold uppercase tracking-widest">
+                                <span className="text-[10px] text-gray-600">{selectedClient.projects.length} projetos</span>
+                                <span className="text-[10px] text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded-lg">{selectedClient.category || "Sem Categoria"}</span>
+                                <span className={`text-[10px] px-2 py-0.5 rounded-lg ${selectedClient.editorId === 'miguel' ? 'bg-amber-500/10 text-amber-500' : 'bg-purple-500/10 text-purple-500'}`}>
+                                    Editor: {selectedClient.editorId}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,9 +298,9 @@ export default function ClientesPage() {
                 {/* Tabs */}
                 <div className="sticky top-[53px] z-10 bg-[#080808] border-b border-white/5 px-8 lg:px-16">
                     <div className="flex gap-8">
-                        {(["filmagens", "edicoes"] as const).map(tab => (
+                        {(["filmagens", "edicoes", "contrato"] as const).map(tab => (
                             <button key={tab} onClick={() => setActiveTab(tab)} className={`py-3 text-xs font-black uppercase tracking-widest transition-all border-b-2 ${activeTab === tab ? "text-white border-white" : "text-gray-600 border-transparent"}`}>
-                                {tab === "filmagens" ? "📁 Filmagens" : "🎬 Edições"}
+                                {tab === "filmagens" ? "📁 Filmagens" : tab === "edicoes" ? "🎬 Edições" : "📄 Dados do Cliente"}
                             </button>
                         ))}
                     </div>
@@ -259,8 +308,50 @@ export default function ClientesPage() {
 
                 {/* Conteúdo */}
                 <div className="px-8 lg:px-16 py-8">
-                    {activeTab === "filmagens" && <FilmagensTab projects={selectedClient.projects} />}
-                    {activeTab === "edicoes" && <EditionsTab projects={selectedClient.projects} />}
+                    {activeTab === "filmagens" && <FilmagensTab projects={selectedClient.projects} onUpdate={(p) => updateClient({ ...selectedClient, projects: p })} />}
+                    {activeTab === "edicoes" && <EditionsTab projects={selectedClient.projects} onUpdate={(p) => updateClient({ ...selectedClient, projects: p })} />}
+                    {activeTab === "contrato" && (
+                        <div className="max-w-2xl bg-[#0f0f0f] border border-white/[0.03] rounded-3xl p-10 space-y-8 animate-fade-in">
+                            <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Configurações de Contrato e Editor</h4>
+
+                            <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Categoria</label>
+                                    <input value={selectedClient.category || ""} onChange={e => updateClient({ ...selectedClient, category: e.target.value })} placeholder="Ex: Standup, Podcast..." className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Editor Responsável</label>
+                                    <select value={selectedClient.editorId} onChange={e => updateClient({ ...selectedClient, editorId: e.target.value as EditorId })} className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none cursor-pointer">
+                                        <option value="miguel" className="bg-[#111]">MIGUEL</option>
+                                        <option value="diogo" className="bg-[#111]">DIOGO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Reels p/ Mês</label>
+                                    <input type="number" value={selectedClient.reelsQuantity || 0} onChange={e => updateClient({ ...selectedClient, reelsQuantity: parseInt(e.target.value) || 0 })} className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Frequência</label>
+                                    <input value={selectedClient.frequency || ""} onChange={e => updateClient({ ...selectedClient, frequency: e.target.value })} placeholder="Ex: 2 por semana" className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Pagamento (R$)</label>
+                                    <input type="number" value={selectedClient.paymentAmount || 0} onChange={e => updateClient({ ...selectedClient, paymentAmount: parseFloat(e.target.value) || 0 })} className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                            </div>
+
+                            <div className="pt-6 border-t border-white/5">
+                                <div className="bg-blue-500/5 p-4 rounded-2xl border border-blue-500/10">
+                                    <p className="text-[9px] font-bold text-blue-400 uppercase tracking-widest leading-relaxed">
+                                        💡 Ao alterar o editor, todos os projetos pendentes deste cliente serão migrados automaticamente para a agenda do novo responsável.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <input type="file" ref={imageInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
@@ -273,18 +364,19 @@ export default function ClientesPage() {
             <header className="mb-12 flex justify-between items-center">
                 <div>
                     <h2 className="text-4xl font-black tracking-tight text-white uppercase italic">Clientes</h2>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Banco de Dados / Trombiny Produções</p>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Banco de Dados Operacional</p>
                 </div>
                 <button onClick={addClient} className="bg-white/5 hover:bg-white/10 border border-white/5 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">+ Novo Cliente</button>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {allClients.map(client => (
+                {data?.clients.map(client => (
                     <div
                         key={client.id}
                         onClick={() => { setSelectedClient(client); setActiveTab("filmagens"); }}
-                        className="group cursor-pointer bg-[#0f0f0f] border border-white/[0.03] hover:border-white/10 rounded-3xl p-8 transition-all duration-500 hover:bg-[#121212] flex flex-col items-center text-center"
+                        className="group cursor-pointer bg-[#0f0f0f] border border-white/[0.03] hover:border-white/10 rounded-3xl p-8 transition-all duration-500 hover:bg-[#121212] flex flex-col items-center text-center relative overflow-hidden"
                     >
+                        <div className={`absolute top-0 right-0 w-1 h-full ${client.editorId === 'miguel' ? 'bg-amber-500/30' : 'bg-purple-500/30'}`} />
                         <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent flex items-center justify-center text-3xl mb-5 overflow-hidden group-hover:scale-105 transition-transform">
                             {clientImages[client.id] ? (
                                 <img src={clientImages[client.id]} alt={client.name} className="w-full h-full object-cover" />
@@ -292,8 +384,12 @@ export default function ClientesPage() {
                                 <span>👤</span>
                             )}
                         </div>
-                        <h3 className="text-lg font-black text-white tracking-tighter group-hover:text-blue-400 transition-all uppercase">{client.name}</h3>
-                        <p className="text-[8px] text-gray-600 uppercase tracking-widest font-bold mt-1">{client.projects.length} projetos</p>
+                        <h3 className="text-lg font-black text-white tracking-tighter group-hover:text-amber-400 transition-all uppercase">{client.name}</h3>
+                        <p className="text-[8px] text-gray-600 uppercase tracking-widest font-bold mt-1">{client.category || "Geral"}</p>
+                        <div className="mt-4 flex gap-2">
+                            <span className="text-[7px] font-black border border-white/5 px-2 py-1 rounded bg-white/[0.02] text-gray-500 uppercase">{client.editorId}</span>
+                            <span className="text-[7px] font-black border border-white/5 px-2 py-1 rounded bg-white/[0.02] text-gray-500 uppercase">{client.projects.length} PRJ</span>
+                        </div>
                     </div>
                 ))}
             </div>

@@ -2,6 +2,8 @@ export type Status = "Atrasado" | "Aguardando" | "Em edição" | "Entregue";
 
 export type ProjectType = "reels" | "youtube" | "raw";
 
+export type EditorId = "miguel" | "diogo";
+
 export type Project = {
     id: string;
     name: string;
@@ -11,6 +13,7 @@ export type Project = {
     type: ProjectType;
     path?: string; // Caminho no Drive/OneDrive
     deliveredAt?: string; // Data de entrega, ex: "15/02/2026"
+    scheduledDate?: string; // Data programada para a agenda (YYYY-MM-DD)
 };
 
 export type Client = {
@@ -21,7 +24,11 @@ export type Client = {
         instagram?: string;
         email?: string;
     };
-    frequency?: string; // Ex: "2 por mês"
+    category?: string; // Ex: "Standup", "Podcast"
+    reelsQuantity?: number; // Qtd de reels por mês/contrato
+    frequency?: string; // Ex: "2 por semana"
+    paymentAmount?: number; // Valor pago
+    editorId: EditorId; // ID do editor responsável
     premiereTemplate?: string; // Caminho para o template .prproj
     projects: Project[];
 };
@@ -41,4 +48,14 @@ export type Location = {
     name: string;
     size: "Pequeno" | "Médio" | "Grande";
     recommendedKit?: string[]; // IDs de equipamentos
+};
+
+export type ExpenseEntry = {
+    id: string;
+    date: string;
+    show: string;
+    local: string;
+    ida: number;
+    volta: number;
+    editor: string;
 };
