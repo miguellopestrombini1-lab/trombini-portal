@@ -41,6 +41,14 @@ export const clients: Client[] = [
             { id: "q-edit-1", name: "9 A CADA 10 DENTISTAS", year: 2025, month: "Novembro", status: "Entregue", type: "reels", deliveredAt: "20/11/2025", path: "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO" },
             { id: "q-edit-2", name: "BANHEIRO", year: 2025, month: "Novembro", status: "Entregue", type: "reels", deliveredAt: "22/11/2025", path: "OneDrive/REELS GERAL/4 AMIGOS/2025/11-NOVEMBRO" },
         ]
+    },
+    {
+        id: "serie-b",
+        name: "Série B",
+        contact: { instagram: "@serieb", phone: "" },
+        frequency: "Semanal",
+        premiereTemplate: "",
+        projects: []
     }
 ];
 
