@@ -15,5 +15,5 @@ while ($true) {
         Write-Host "✅ Tudo sincronizado e online na Vercel!" -ForegroundColor Green
     }
     
-    Start-Sleep -Seconds 10
+    Start-Sleep -Seconds 1800 # 30 minutos
 }
