@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useDb, DbData } from "../../lib/useDb";
+import { useState, useRef } from "react";
+import { useDb } from "../../lib/useDb";
 import { Client, Project, Status, EditorId } from "../../lib/types";
 
 // Tipo local de edição (Reels / YouTube apenas)
@@ -289,7 +289,7 @@ export default function ClientesPage() {
                             <div className="flex items-center gap-4 mt-2 font-bold uppercase tracking-widest">
                                 <span className="text-[10px] text-gray-600">{selectedClient.projects.length} projetos</span>
                                 <span className="text-[10px] text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded-lg">{selectedClient.category || "Sem Categoria"}</span>
-                                <span className={`text-[10px] px-2 py-0.5 rounded-lg ${selectedClient.editorId === 'miguel' ? 'bg-amber-500/10 text-amber-500' : 'bg-purple-500/10 text-purple-500'}`}>
+                                <span className={`text-[10px] px-2 py-0.5 rounded-lg ${selectedClient.editorId === 'miguel' ? 'bg-blue-500/10 text-blue-500' : 'bg-emerald-500/10 text-emerald-500'}`}>
                                     Editor: {selectedClient.editorId}
                                 </span>
                             </div>
@@ -330,6 +330,22 @@ export default function ClientesPage() {
                                 </div>
                             </div>
 
+                            <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Instagram</label>
+                                    <input value={selectedClient.contact?.instagram || ""} onChange={e => updateClient({ ...selectedClient, contact: { ...selectedClient.contact, instagram: e.target.value } })} placeholder="@..." className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">WhatsApp / Telefone</label>
+                                    <input value={selectedClient.contact?.phone || ""} onChange={e => updateClient({ ...selectedClient, contact: { ...selectedClient.contact, phone: e.target.value } })} placeholder="11 ..." className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Template Premiere (.prproj)</label>
+                                <input value={selectedClient.premiereTemplate || ""} onChange={e => updateClient({ ...selectedClient, premiereTemplate: e.target.value })} placeholder="Caminho do arquivo..." className="w-full bg-white/[0.03] border border-white/5 rounded-xl px-4 py-3 text-xs text-white outline-none" />
+                            </div>
+
                             <div className="grid grid-cols-3 gap-6">
                                 <div className="space-y-2">
                                     <label className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Reels p/ Mês</label>
@@ -366,7 +382,6 @@ export default function ClientesPage() {
             <header className="mb-12 flex justify-between items-center">
                 <div>
                     <h2 className="text-4xl font-black tracking-tight text-white uppercase italic">Clientes</h2>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Banco de Dados Operacional</p>
                 </div>
                 <button onClick={addClient} className="bg-white/5 hover:bg-white/10 border border-white/5 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">+ Novo Cliente</button>
             </header>
@@ -378,7 +393,7 @@ export default function ClientesPage() {
                         onClick={() => { setSelectedClient(client); setActiveTab("filmagens"); }}
                         className="group cursor-pointer bg-[#0f0f0f] border border-white/[0.03] hover:border-white/10 rounded-3xl p-8 transition-all duration-500 hover:bg-[#121212] flex flex-col items-center text-center relative overflow-hidden"
                     >
-                        <div className={`absolute top-0 right-0 w-1 h-full ${client.editorId === 'miguel' ? 'bg-amber-500/30' : 'bg-purple-500/30'}`} />
+                        <div className={`absolute top-0 right-0 w-1 h-full ${client.editorId === 'miguel' ? 'bg-blue-500/30' : 'bg-emerald-500/30'}`} />
                         <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent flex items-center justify-center text-3xl mb-5 overflow-hidden group-hover:scale-105 transition-transform">
                             {clientImages[client.id] ? (
                                 <img src={clientImages[client.id]} alt={client.name} className="w-full h-full object-cover" />
@@ -386,7 +401,7 @@ export default function ClientesPage() {
                                 <span>👤</span>
                             )}
                         </div>
-                        <h3 className="text-lg font-black text-white tracking-tighter group-hover:text-amber-400 transition-all uppercase">{client.name}</h3>
+                        <h3 className="text-lg font-black text-white tracking-tighter group-hover:text-blue-400 transition-all uppercase">{client.name}</h3>
                         <p className="text-[8px] text-gray-600 uppercase tracking-widest font-bold mt-1">{client.category || "Geral"}</p>
                         <div className="mt-4 flex gap-2">
                             <span className="text-[7px] font-black border border-white/5 px-2 py-1 rounded bg-white/[0.02] text-gray-500 uppercase">{client.editorId}</span>

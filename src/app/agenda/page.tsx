@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useDb } from "../../lib/useDb";
-import { Client, Project, EditorId } from "../../lib/types";
+import { Project, EditorId } from "../../lib/types";
 
 type ViewMode = "semanal" | "mensal" | "anual";
 
@@ -16,7 +16,7 @@ export default function AgendaPage() {
         const tasks: { clientName: string; project: Project; editorId: EditorId }[] = [];
         data.clients.forEach(client => {
             client.projects.forEach(project => {
-                if (project.type !== "raw" && project.scheduledDate) {
+                if (project.scheduledDate) {
                     tasks.push({
                         clientName: client.name,
                         project,
@@ -75,7 +75,6 @@ export default function AgendaPage() {
             <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <h2 className="text-4xl font-black tracking-tight text-white uppercase italic">Agenda</h2>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-bold mt-1">Planejamento de Produção</p>
                 </div>
 
                 <div className="flex items-center gap-4 bg-white/5 p-1.5 rounded-2xl border border-white/5">
@@ -121,7 +120,7 @@ export default function AgendaPage() {
                                         key={idx}
                                         className="group bg-[#0f0f0f] border border-white/[0.03] hover:border-white/10 rounded-2xl p-5 transition-all hover:bg-[#121212] relative overflow-hidden"
                                     >
-                                        <div className={`absolute top-0 right-0 w-1 h-full ${task.editorId === 'miguel' ? 'bg-amber-500/30' : 'bg-purple-500/30'}`} />
+                                        <div className={`absolute top-0 right-0 w-1 h-full ${task.editorId === 'miguel' ? 'bg-blue-500/30' : 'bg-emerald-500/30'}`} />
 
                                         <div className="flex justify-between items-start mb-4">
                                             <div>
@@ -141,7 +140,7 @@ export default function AgendaPage() {
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <span className={`w-1.5 h-1.5 rounded-full ${task.editorId === 'miguel' ? 'bg-amber-500' : 'bg-purple-500'}`} />
+                                                <span className={`w-1.5 h-1.5 rounded-full ${task.editorId === 'miguel' ? 'bg-blue-500' : 'bg-emerald-500'}`} />
                                                 <span className="text-gray-500 uppercase text-[8px] tracking-widest">{task.editorId}</span>
                                             </div>
                                         </div>
@@ -156,8 +155,8 @@ export default function AgendaPage() {
             <footer className="mt-20 pt-8 border-t border-white/5 flex justify-between items-center opacity-30">
                 <p className="text-[8px] font-black uppercase tracking-widest text-gray-500">Sistema de Agenda Trombiny v2.0</p>
                 <div className="flex gap-4">
-                    <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    <span className="w-2 h-2 rounded-full bg-purple-500" />
+                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 </div>
             </footer>
         </div>

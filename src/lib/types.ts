@@ -14,6 +14,10 @@ export type Project = {
     path?: string; // Caminho no Drive/OneDrive
     deliveredAt?: string; // Data de entrega, ex: "15/02/2026"
     scheduledDate?: string; // Data programada para a agenda (YYYY-MM-DD)
+    location?: string;
+    time?: string;
+    notes?: string;
+    equipmentIds?: string[];
 };
 
 export type Client = {

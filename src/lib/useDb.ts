@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Client, Equipment, Project, ExpenseEntry } from './types';
+import { Client, Equipment, ExpenseEntry } from './types';
 
 export type DbData = {
     clients: Client[];

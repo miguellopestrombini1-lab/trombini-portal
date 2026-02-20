@@ -1,0 +1,24 @@
+
+> trombiny-portal@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+✓ Ready in 1046ms
+○ Compiling / ...
+ GET / 200 in 4.9s (compile: 4.5s, render: 451ms)
+ GET /clientes 200 in 614ms (compile: 578ms, render: 37ms)
+ GET /api/db 200 in 563ms (compile: 534ms, render: 28ms)
+ GET /api/db 200 in 13ms (compile: 5ms, render: 8ms)
+ GET /agenda 200 in 522ms (compile: 417ms, render: 106ms)
+ GET /api/db 200 in 8ms (compile: 3ms, render: 5ms)
+ GET /filmagens 200 in 609ms (compile: 501ms, render: 108ms)
+ GET /api/db 200 in 8ms (compile: 3ms, render: 5ms)

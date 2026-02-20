@@ -7,10 +7,10 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center justify-center p-12 bg-[#080808] animate-fade-in">
       {/* Hero */}
       <div className="text-center mb-20">
-        <h1 className="text-8xl lg:text-[10rem] font-black text-white tracking-tighter leading-none uppercase">
+        <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white tracking-tighter leading-none uppercase">
           TROMBINY
         </h1>
-        <h2 className="text-5xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 tracking-tighter leading-none uppercase mt-2">
+        <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 tracking-tighter leading-none uppercase mt-2">
           PRODUÇÕES
         </h2>
         <p className="text-[10px] text-gray-600 uppercase tracking-[0.5em] font-bold mt-6">Management Portal · v2.0</p>
