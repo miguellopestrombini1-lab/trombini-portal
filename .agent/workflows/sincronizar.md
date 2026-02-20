@@ -35,5 +35,7 @@ Siga estes passos EXATAMENTE nesta ordem, toda vez que o usuário pedir para sin
 6.  **Ler o Diário (Apenas ao puxar)**:
     Após o Pull ser finalizado com sucesso, leia o arquivo `DIARIO_DE_BORDO.md` usando a ferramenta de leitura de arquivos para que você (Antigravity) possa atualizar seu próprio contexto sobre o que a outra pessoa e a outra IA fizeram recentemente.
     
-7.  **Avisar o Usuário**:
-    Informe ao usuário (usando a linguagem simples e em português) que a sincronização foi concluída com sucesso e que o pacote já está com a Vercel (se ele enviou) ou que as novidades do Diogo já estão no computador (se ele puxou).
+7.  **Resumir as Alterações e Avisar o Usuário (MUITO IMPORTANTE)**:
+    É OBRIGATÓRIO informar ao usuário um resumo claro e direto do que foi alterado pelo parceiro (ex: pelo Diogo) que acabou de chegar na máquina dele.
+    Use os comandos do git (como `git log -n 3` ou `git diff` nos arquivos chaves como `db.ts`) para entender o que mudou no código.
+    Exemplo de resposta que você DEVE dar: "Sincronização concluída! O Diogo adicionou os clientes Fabio Rabin e After Comedy, e mudou a cor do botão". Nunca termine a sincronização sem este resumo exato do que ocorreu.
