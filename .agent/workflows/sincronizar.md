@@ -39,3 +39,8 @@ Siga estes passos EXATAMENTE nesta ordem, toda vez que o usuário pedir para sin
     É OBRIGATÓRIO informar ao usuário um resumo claro e direto do que foi alterado pelo parceiro (ex: pelo Diogo) que acabou de chegar na máquina dele.
     Use os comandos do git (como `git log -n 3` ou `git diff` nos arquivos chaves como `db.ts`) para entender o que mudou no código.
     Exemplo de resposta que você DEVE dar: "Sincronização concluída! O Diogo adicionou os clientes Fabio Rabin e After Comedy, e mudou a cor do botão". Nunca termine a sincronização sem este resumo exato do que ocorreu.
+
+8.  **Ativar o Auto-Sync (Muito Importante)**:
+    Após terminar o resumo para o usuário, você (Antigravity) DEVE iniciar o script de salvamento automático em segundo plano, para garantir que o trabalho dali em diante seja salvo a cada 30 minutos, protegendo os arquivos.
+    - Se estiver rodando no **Windows (Miguel)**, execute: `Start-Process powershell -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File .\autosync.ps1"`
+    - Se estiver rodando no **Mac (Diogo)**, execute: `nohup ./autosync.sh > autosync.log 2>&1 &`
