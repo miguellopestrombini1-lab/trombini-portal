@@ -30,7 +30,7 @@ function EditionsTab({ projects, onUpdate }: { projects: Project[], onUpdate: (p
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploadTargetId, setUploadTargetId] = useState<string | null>(null);
 
-    const update = (id: string, field: keyof EditItem, value: any) => {
+    const update = (id: string, field: keyof EditItem, value: string | boolean | undefined) => {
         const newItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
         setItems(newItems);
         syncProjects(newItems);
@@ -53,6 +53,7 @@ function EditionsTab({ projects, onUpdate }: { projects: Project[], onUpdate: (p
     };
 
     const addItem = () => {
+        // eslint-disable-next-line react-hooks/purity
         const newItem: EditItem = { id: `edit-${Date.now()}`, name: "", type: "reels", status: "Aguardando", delivered: false, deliveryDate: "", link: "", fileUrl: "", fileName: "", notes: "" };
         const newItems = [...items, newItem];
         setItems(newItems);
@@ -67,7 +68,7 @@ function EditionsTab({ projects, onUpdate }: { projects: Project[], onUpdate: (p
             name: item.name,
             year: new Date().getFullYear(),
             status: item.status,
-            type: item.type as any,
+            type: item.type as "reels" | "youtube",
             deliveredAt: item.deliveryDate
         }));
         onUpdate([...rawProjects, ...updatedEditions]);
@@ -165,7 +166,7 @@ function EditionsTab({ projects, onUpdate }: { projects: Project[], onUpdate: (p
 function FilmagensTab({ projects, onUpdate }: { projects: Project[], onUpdate: (projects: Project[]) => void }) {
     const [items, setItems] = useState(projects.filter(p => p.type === "raw").map(p => ({ ...p })));
 
-    const update = (id: string, field: string, value: any) => {
+    const update = (id: string, field: string, value: string | number | undefined) => {
         const newItems = items.map(item => item.id === id ? { ...item, [field]: value } : item);
         setItems(newItems);
         syncProjects(newItems);
@@ -178,12 +179,13 @@ function FilmagensTab({ projects, onUpdate }: { projects: Project[], onUpdate: (
     };
 
     const addItem = () => {
+        // eslint-disable-next-line react-hooks/purity
         const newItems = [...items, { id: `film-${Date.now()}`, name: "", year: new Date().getFullYear(), month: "", status: "Aguardando" as Status, type: "raw" as const, path: "" }];
         setItems(newItems);
         syncProjects(newItems);
     };
 
-    const syncProjects = (currentItems: any[]) => {
+    const syncProjects = (currentItems: Project[]) => {
         const editionProjects = projects.filter(p => p.type !== "raw");
         onUpdate([...editionProjects, ...currentItems]);
     };

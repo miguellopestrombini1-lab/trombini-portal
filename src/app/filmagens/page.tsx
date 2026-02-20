@@ -27,7 +27,7 @@ export default function FilmagensPage() {
     const [editingEqId, setEditingEqId] = useState<string | null>(null);
     const [editingEqField, setEditingEqField] = useState<string | null>(null);
 
-    const updateEquipment = (id: string, field: string, value: any) => {
+    const updateEquipment = (id: string, field: string, value: string | boolean | undefined) => {
         setEquipments(prev => prev.map(e => e.id === id ? { ...e, [field]: value } : e));
     };
 
@@ -88,7 +88,7 @@ export default function FilmagensPage() {
             {/* Sub-navegação */}
             <div className="flex gap-2 mb-10 bg-[#0a0a0a] p-1.5 rounded-xl border border-white/5 w-fit">
                 {([["agenda", "📅 Agenda"], ["inventario", "🎥 Inventário"], ["drive", "📁 Drive"]] as const).map(([key, label]) => (
-                    <button key={key} onClick={() => setActiveSection(key as any)} className={`px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeSection === key ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-300"}`}>
+                    <button key={key} onClick={() => setActiveSection(key)} className={`px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeSection === key ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-300"}`}>
                         {label}
                     </button>
                 ))}

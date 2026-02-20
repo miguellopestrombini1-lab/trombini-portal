@@ -37,7 +37,7 @@ export default function EdicoesPage() {
         return all;
     });
 
-    const update = (id: string, field: keyof EditProject, value: any) => {
+    const update = (id: string, field: keyof EditProject, value: string | boolean) => {
         setProjects(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
     };
 
@@ -87,7 +87,7 @@ export default function EdicoesPage() {
             {/* Modos de visualização */}
             <div className="flex gap-2 mb-8 bg-[#0a0a0a] p-1.5 rounded-xl border border-white/5 w-fit">
                 {([["list", "📋 Lista"], ["month", "📅 Mensal"], ["week", "📆 Semanal"]] as const).map(([key, label]) => (
-                    <button key={key} onClick={() => setViewMode(key as any)} className={`px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === key ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-300"}`}>
+                    <button key={key} onClick={() => setViewMode(key)} className={`px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === key ? "bg-white/10 text-white" : "text-gray-600 hover:text-gray-300"}`}>
                         {label}
                     </button>
                 ))}
